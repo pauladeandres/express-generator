@@ -1,8 +1,9 @@
+
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema({
-    username : {
+const restaurantSchema = new Schema({
+    username: {
         type: String,
         required: [true, 'El nombre de usuario es obligatorio'],
         unique: true
@@ -15,23 +16,25 @@ const userSchema = new Schema({
         type: String,
         required: [true, 'La contraseña es obligatorio']
     },
-    role: {
-        type: String,
-        enum: ['USER', 'RESTAURANT'],
-        required: true
-    },
     profileImg: {
         type: String,
         default: ' '
     },
-    restaurantes: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Restaurant'
-    }]
+    description: {
+        type: String,
+        minlength: 10,
+        maxlength: 500
+},
+    availability: {       
+        gaps:  [{
+            hora: new Date(),
+            number_people: Number
+        }]
+    },
 }, {
     timestamps: true
 })
 
-const User = mongoose.model("User", userSchema)
+const Restaurant = mongoose.model("Restaurant", restaurantSchema)
 
-module.exports = User
+module.exports = Restaurant
